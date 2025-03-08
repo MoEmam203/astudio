@@ -83,3 +83,16 @@ php artisan serve
 
 You can find the API documentation with all the available endpoints and response examples at the following link:  
 [Astudio API Documentation](https://documenter.getpostman.com/view/10948469/2sAYdoFSyo)
+
+---
+
+## **📌 Test Credentials**
+Use this test account:
+
+**Default User:**
+```
+Email: astudio@test.com
+Password: password
+```
+
+---
