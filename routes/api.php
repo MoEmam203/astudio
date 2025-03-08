@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\Api\ProjectApiController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\TimeSheetApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +21,10 @@ Route::post('/register', [AuthApiController::class, 'register']);
 Route::post('/login', [AuthApiController::class, 'login']);
 Route::post('/logout', [AuthApiController::class, 'logout'])->middleware('auth:api');
 
-
 Route::middleware('auth:api')->group(function () {
-    Route::apiResource('projects',ProjectApiController::class);
+    Route::post('projects-attach', [ProjectApiController::class, 'attachProjects']);
+    Route::post('projects-detach', [ProjectApiController::class, 'detachProjects']);
+    Route::get('get-user-projects', [ProjectApiController::class, 'getUserProjects']);
+    Route::apiResource('projects', ProjectApiController::class);
+    Route::apiResource('time-sheets', TimeSheetApiController::class)->shallow();
 });

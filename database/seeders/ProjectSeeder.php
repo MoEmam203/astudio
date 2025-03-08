@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
@@ -15,6 +15,9 @@ class ProjectSeeder extends Seeder
     {
         Project::factory()
             ->count(10)
-            ->create();
+            ->create()
+            ->each(function ($project) {
+                $project->users()->attach(User::all()->random(5)->pluck('id'));
+            });
     }
 }
