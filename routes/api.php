@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AttributeApiController;
+use App\Http\Controllers\Api\AttributeValueApiController;
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\Api\ProjectApiController;
 use App\Http\Controllers\Api\TimeSheetApiController;
@@ -26,5 +28,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('projects-detach', [ProjectApiController::class, 'detachProjects']);
     Route::get('get-user-projects', [ProjectApiController::class, 'getUserProjects']);
     Route::apiResource('projects', ProjectApiController::class);
-    Route::apiResource('time-sheets', TimeSheetApiController::class)->shallow();
+    Route::apiResource('time-sheets', TimeSheetApiController::class);
+    Route::apiResource('attributes', AttributeApiController::class);
+    Route::apiResource('attribute-values', AttributeValueApiController::class);
 });
