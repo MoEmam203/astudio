@@ -18,6 +18,7 @@ class ProjectResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'status' => $this->status,
+            'values' => AttributeValueResource::collection($this->whenLoaded('attributeValues')),
         ];
     }
 }

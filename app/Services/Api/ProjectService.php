@@ -9,9 +9,10 @@ use Illuminate\Http\JsonResponse;
 
 class ProjectService
 {
-    public function getProjects(?int $perPage): JsonResponse
+    public function getProjects(?int $perPage, ?array $filters = []): JsonResponse
     {
-        $projects = Project::paginate($perPage ?? 10);
+        $projects = Project::with('attributeValues.attribute')
+            ->filter($filters)->paginate($perPage ?? 10);
 
         return successResponse(
             data: [
@@ -31,7 +32,7 @@ class ProjectService
 
     public function getProject(int $projectId): JsonResponse
     {
-        $project = Project::find($projectId);
+        $project = Project::with('attributeValues.attribute')->find($projectId);
         if (! $project) {
             return failureResponse(
                 message: 'Project not found',
@@ -50,6 +51,17 @@ class ProjectService
     public function store(array $validatedData): JsonResponse
     {
         $project = Project::create($validatedData);
+
+        if(isset($validatedData['attributes']) && count($validatedData['attributes']) > 0){
+            foreach($validatedData['attributes'] as $attribute){
+                $project->attributeValues()->create([
+                    'attribute_id' => $attribute['attribute_id'],
+                    'value' => $attribute['value'],
+                ]);
+            }
+
+            $project->load('attributeValues.attribute');
+        }
 
         return successResponse(
             data: [
@@ -70,6 +82,18 @@ class ProjectService
         }
 
         $project->update($validatedData);
+
+        if(isset($validatedData['attributes']) && count($validatedData['attributes']) > 0){
+            $project->attributeValues()->delete();
+            foreach($validatedData['attributes'] as $attribute){
+                $project->attributeValues()->create([
+                    'attribute_id' => $attribute['attribute_id'],
+                    'value' => $attribute['value'],
+                ]);
+            }
+
+            $project->load('attributeValues.attribute');
+        }
 
         return successResponse(
             data: [
@@ -98,7 +122,7 @@ class ProjectService
 
     public function getUserProjects(User $user, ?int $perPage)
     {
-        $projects = $user->projects()->paginate($perPage ?? 10);
+        $projects = $user->projects()->with('attributeValues.attribute')->paginate($perPage ?? 10);
 
         return successResponse(
             data: [

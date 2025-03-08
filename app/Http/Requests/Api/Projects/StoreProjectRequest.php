@@ -23,7 +23,10 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'status' => 'nullable|in:pending,ongoing,complete'
+            'status' => 'required|in:pending,ongoing,complete',
+            'attributes' => 'nullable|array',
+            'attributes.*.attribute_id' => 'required|exists:attributes,id',
+            'attributes.*.value' => 'required|string|max:255',
         ];
     }
 }

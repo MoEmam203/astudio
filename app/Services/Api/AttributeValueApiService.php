@@ -27,7 +27,8 @@ class AttributeValueApiService
                     'from' => $attributeValues->firstItem(),
                     'to' => $attributeValues->lastItem(),
                 ],
-            ]
+            ],
+            message: 'Attribute values fetched successfully',
         );
     }
 
@@ -48,7 +49,8 @@ class AttributeValueApiService
         return successResponse(
             data: [
                 'attribute_value' => new AttributeValueResource($attributeValue),
-            ]
+            ],
+            message: 'Attribute value fetched successfully',
         );
     }
 
@@ -61,6 +63,16 @@ class AttributeValueApiService
             );
         }
 
+        $isAttributeValueExists = AttributeValue::where('entity_id', $validatedData['entity_id'])
+            ->where('attribute_id', $validatedData['attribute_id'])
+            ->exists();
+
+        if($isAttributeValueExists){
+            return failureResponse(
+                message: 'Attribute value already exists',
+                code: 422
+            );
+        }
         $attributeValue = AttributeValue::create($validatedData);
         $attributeValue->load(['attribute', 'project']);
 
@@ -104,16 +116,16 @@ class AttributeValueApiService
     {
         $attributeValue = AttributeValue::find($attributeValueId);
 
-        if ($user->projects()->where('id', $attributeValue->entity_id)->doesntExist()) {
+        if (! $attributeValue) {
             return failureResponse(
-                message: 'project not found',
+                message: 'Attribute value not found',
                 code: 404
             );
         }
 
-        if (! $attributeValue) {
+        if ($user->projects()->where('id', $attributeValue->entity_id)->doesntExist()) {
             return failureResponse(
-                message: 'Attribute value not found',
+                message: 'project not found',
                 code: 404
             );
         }

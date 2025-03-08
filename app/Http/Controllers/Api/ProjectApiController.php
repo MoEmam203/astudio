@@ -16,7 +16,7 @@ class ProjectApiController extends Controller
 
     public function index(): JsonResponse
     {
-        return $this->projectService->getProjects(perPage: request('per_page'));
+        return $this->projectService->getProjects(perPage: request('per_page'), filters: request('filters'));
     }
 
     public function show(int $projectId): JsonResponse
