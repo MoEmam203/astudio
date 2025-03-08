@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -63,5 +64,10 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn () => "{$this->first_name} {$this->last_name}"
         );
+    }
+
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(related: Project::class, table: 'project_user', foreignPivotKey: 'user_id', relatedPivotKey: 'project_id');
     }
 }
