@@ -52,8 +52,8 @@ class ProjectService
     {
         $project = Project::create($validatedData);
 
-        if(isset($validatedData['attributes']) && count($validatedData['attributes']) > 0){
-            foreach($validatedData['attributes'] as $attribute){
+        if (isset($validatedData['attributes']) && count($validatedData['attributes']) > 0) {
+            foreach ($validatedData['attributes'] as $attribute) {
                 $project->attributeValues()->create([
                     'attribute_id' => $attribute['attribute_id'],
                     'value' => $attribute['value'],
@@ -83,9 +83,9 @@ class ProjectService
 
         $project->update($validatedData);
 
-        if(isset($validatedData['attributes']) && count($validatedData['attributes']) > 0){
+        if (isset($validatedData['attributes']) && count($validatedData['attributes']) > 0) {
             $project->attributeValues()->delete();
-            foreach($validatedData['attributes'] as $attribute){
+            foreach ($validatedData['attributes'] as $attribute) {
                 $project->attributeValues()->create([
                     'attribute_id' => $attribute['attribute_id'],
                     'value' => $attribute['value'],

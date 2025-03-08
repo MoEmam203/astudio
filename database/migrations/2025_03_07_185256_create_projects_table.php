@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('status',['pending', 'ongoing', 'complete'])->default('pending');
+            $table->enum('status', ['pending', 'ongoing', 'complete'])->default('pending');
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ class ProjectFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'status' => fake()->randomElement(['pending', 'ongoing', 'complete'])
+            'status' => fake()->randomElement(['pending', 'ongoing', 'complete']),
         ];
     }
 }

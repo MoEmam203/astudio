@@ -1,9 +1,8 @@
 <?php
 
-
 use Illuminate\Http\JsonResponse;
 
-if (!function_exists('successResponse')) {
+if (! function_exists('successResponse')) {
     function successResponse($data = [], $message = null, $code = 200): JsonResponse
     {
         return response()->json(data: [
@@ -14,13 +13,13 @@ if (!function_exists('successResponse')) {
     }
 }
 
-if (!function_exists('failureResponse')) {
+if (! function_exists('failureResponse')) {
     function failureResponse($message = null, $code = 403): JsonResponse
     {
         return response()->json(data: [
             'status' => 0,
             'message' => $message,
-            'data' => null
+            'data' => null,
         ], status: $code);
     }
 }

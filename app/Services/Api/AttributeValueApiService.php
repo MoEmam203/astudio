@@ -67,7 +67,7 @@ class AttributeValueApiService
             ->where('attribute_id', $validatedData['attribute_id'])
             ->exists();
 
-        if($isAttributeValueExists){
+        if ($isAttributeValueExists) {
             return failureResponse(
                 message: 'Attribute value already exists',
                 code: 422
